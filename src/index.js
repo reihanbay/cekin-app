@@ -6,6 +6,7 @@ import { AuthContext } from './services/Context'
 import SplashScreen from './screen/SplashScreen/screen';
 import SignupScreen from './screen/SignupScreen/screen';
 import SigninScreen from './screen/SigninScreen/screen';
+import { AuthStack } from './navigator/Navigator';
 //Firebase
 
 //Firebase Analytics
@@ -62,7 +63,7 @@ const AppStack = () => {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {
-          state.isLoading ? <SigninScreen /> : (
+          state.isLoading ? <AuthStack /> : (
             state.token !== null
               ? <SignupScreen />
               : <SigninScreen />

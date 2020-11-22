@@ -11,7 +11,7 @@ export const AuthStack = () =>{
                 name='LoginScren'
                 component={SigninScreen}
                 options={{
-                    headerShown: true
+                    headerShown: false
                 }} />
         </Stack.Navigator>
     )

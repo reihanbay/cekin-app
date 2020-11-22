@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "503483364950",
+    "firebase_url": "https://cekin-356c0.firebaseio.com",
+    "project_id": "cekin-356c0",
+    "storage_bucket": "cekin-356c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503483364950:android:58ca58085b8aac0bcfedf7",
+        "android_client_info": {
+          "package_name": "com.cekin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503483364950-mipbcfvqjgmhcg7meb2bjigu97aeg6g1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5bwf4x-XRgzfopDudTWy4e8I-gDs3VaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503483364950-mipbcfvqjgmhcg7meb2bjigu97aeg6g1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

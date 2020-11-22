@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { Colors, Mixins } from '../../styles'
 
 const styles = StyleSheet.create({
@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+
+    bottomContainer: {
+        flexDirection: 'row',
+        alignSelf: 'center'
     },
 
     inputContainer: {
@@ -31,7 +36,7 @@ const styles = StyleSheet.create({
     },
 
     backgroundContainer: {
-        width :Dimensions.get('window').width,
+        width: Dimensions.get('window').width,
         position: 'absolute',
         bottom: 0
     },
@@ -44,6 +49,10 @@ const styles = StyleSheet.create({
         width: '90%',
         marginVertical: Mixins.scaleSize(24)
     },
+
+    textButton: {
+        marginHorizontal: Mixins.scaleSize(8)
+    }
 })
 
 export default styles

@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 import { Colors, Typography } from '.'
 
 export const defaultStyles = StyleSheet.create({
@@ -16,5 +16,9 @@ export const defaultStyles = StyleSheet.create({
         fontFamily: Typography.FONT_NUNITO_REGULAR,
         fontSize: Typography.FONT_SIZE_18,
     },
-    
+
+    textBold: {
+        fontWeight: Typography.FONT_WEIGHT_BOLD
+    }
+
 })

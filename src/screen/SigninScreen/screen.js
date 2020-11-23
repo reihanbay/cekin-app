@@ -9,9 +9,31 @@ import { defaultStyles } from '../../styles/DefaultText'
 import { IMAGES } from '../../styles/Images'
 import styles from './styles'
 
+//firebase
+import auth from '@react-native-firebase/auth'
+
 const SigninScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+
+    function signInWithEmailPassword(email, password) {
+        console.log('login with ' + email, password)
+        auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log('Signed with email and password')
+                navigation.navigate('Home')
+            })
+            .catch(error => {
+                console.log(error.code)
+            })
+    }
+
+    /**
+     *
+     * GAP BETWEEN RENDER FUNCTION AND FUNCTIONAL
+     *
+     */
 
     const LogoContainer = () => {
         return (
@@ -46,7 +68,7 @@ const SigninScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button title={'Masuk'} containerStyle={styles.button} />
+                <Button title={'Masuk'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
             </View>
         )
     }

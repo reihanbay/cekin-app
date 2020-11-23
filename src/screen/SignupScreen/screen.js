@@ -9,10 +9,59 @@ import { defaultStyles } from '../../styles/DefaultText'
 import { IMAGES } from '../../styles/Images'
 import styles from './styles'
 
+//firebase
+import auth from '@react-native-firebase/auth'
+
 const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [name, setName] = React.useState('')
+    const [initialized, setInitialized] = React.useState(true)
+    const [user, setUser] = React.useState()
+
+    React.useEffect(() => {
+        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+        return subscriber; // unsubscribe on unmount
+    }, [])
+
+    const onAuthStateChanged = (user) => {
+        setUser(user)
+        if (initialized) setInitialized(false)
+    }
+
+    const registerWithEmailAndPassword = (email, password) => {
+        console.log('resgister with ' + email, password)
+        auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log('User Account Registered & signed in')
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            })
+    }
+
+    const signOut = () => {
+        auth()
+            .signOut()
+            .then(() => console.log('User signed out!'));
+    }
+
+    if (initialized) return null
+
+    /**
+     *
+     * GAP BETWEEN RENDER FUNCTION AND FUNCTIONAL
+     *
+     */
 
     const LogoContainer = () => {
         return (
@@ -52,7 +101,7 @@ const SignupScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button title={'Masuk'} containerStyle={styles.button} />
+                <Button title={'Daftar'} containerStyle={styles.button} onPress={() => registerWithEmailAndPassword(email, password)} />
             </View>
         )
     }
@@ -69,7 +118,7 @@ const SignupScreen = ({ navigation }) => {
         return (
             <View style={styles.bottomContainer}>
                 <Text style={defaultStyles.textNormalDefault}>Sudah punya akun?</Text>
-                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => navigation.goBack()}>
+                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => signOut()}>
                     <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>Masuk</Text>
                 </TouchableOpacity>
             </View>

@@ -2,6 +2,7 @@ import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import SigninScreen from '../screen/SigninScreen/screen'
 import SignupScreen from '../screen/SignupScreen/screen'
+import HomeScreen from '../screen/HomeScreen/screen'
 
 const Stack = createStackNavigator()
 
@@ -18,6 +19,13 @@ export const AuthStack = () => {
             <Stack.Screen
                 name='Daftar'
                 component={SignupScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false
+                }} />
+            <Stack.Screen
+                name='Home'
+                component={HomeScreen}
                 options={{
                     headerShown: false,
                     animationEnabled: false

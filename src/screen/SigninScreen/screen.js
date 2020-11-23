@@ -23,7 +23,7 @@ const SigninScreen = ({ navigation }) => {
 
     const InputContainer = () => {
         return (
-            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.inputContainer}>
+            <View style={styles.inputContainer}>
                 <Input
                     placeholder={'Masukan Email'}
                     value={email}
@@ -33,13 +33,13 @@ const SigninScreen = ({ navigation }) => {
                 <Input
                     placeholder={'Masukan 6 digit kode akses'}
                     value={password}
-                    keyboardType={'phone-pad'}
+                    keyboardType={'numeric'}
                     returnKeyType={'done'}
                     maxLength={6}
                     onChangeText={(text) => setPassword(text)}
-                    isPassword
+                    hidePassword
                     style={[styles.input, defaultStyles.textNormalDefault]} />
-            </KeyboardAvoidingView>
+            </View>
         )
     }
 

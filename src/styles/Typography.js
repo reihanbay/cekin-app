@@ -4,6 +4,7 @@ import { scaleFont } from './Mixins'
 export const FONT_FAMILY_REGULAR = 'OpenSans-Regular'
 export const FONT_FAMILY_BOLD = 'OpenSans-Bold'
 export const FONT_NUNITO_REGULAR = 'Nunito-Regular'
+export const FONT_NUNITO_BOLD = 'Nunito-Bold'
 
 // FONT WEIGHT
 export const FONT_WEIGHT_REGULAR = '400'

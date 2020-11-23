@@ -3,9 +3,6 @@ import { NavigationContainer } from '@react-navigation/native'
 //import { SplashStackScreen, AuthStackScreen, AppScreen } from './navigators/AppNavigator'
 //import * as FirebaseService from '../src/services/FirebaseService'
 import { AuthContext } from './services/Context'
-import SplashScreen from './screen/SplashScreen/screen';
-import SignupScreen from './screen/SignupScreen/screen';
-import SigninScreen from './screen/SigninScreen/screen';
 import { AuthStack } from './navigator/Navigator';
 //Firebase
 
@@ -62,12 +59,15 @@ const AppStack = () => {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
+        <AuthStack />
         {
+          /*
           state.isLoading ? <AuthStack /> : (
             state.token !== null
               ? <SignupScreen />
-              : <SigninScreen />
+              : <AuthStack />
           )
+          */
         }
       </NavigationContainer>
     </AuthContext.Provider>

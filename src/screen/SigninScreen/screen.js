@@ -3,13 +3,13 @@ import { View, Text, Image, KeyboardAvoidingView, StatusBar } from 'react-native
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Button from '../../component/Button/component'
 import Input from '../../component/Input/component'
-import CustomStatusBar from '../../component/StatusBar/component'
+//import CustomStatusBar from '../../component/StatusBar/component'
 import { Colors } from '../../styles'
 import { defaultStyles } from '../../styles/DefaultText'
 import { IMAGES } from '../../styles/Images'
 import styles from './styles'
 
-const SigninScreen = () => {
+const SigninScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
 
@@ -63,8 +63,8 @@ const SigninScreen = () => {
         return (
             <View style={styles.bottomContainer}>
                 <Text style={defaultStyles.textNormalDefault}>Belum punya akun?</Text>
-                <TouchableOpacity activeOpacity={.6} style={styles.textButton}>
-                    <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold,]}>Daftar</Text>
+                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => navigation.navigate('Daftar')}>
+                    <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>Daftar</Text>
                 </TouchableOpacity>
             </View>
         )

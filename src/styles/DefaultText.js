@@ -18,6 +18,7 @@ export const defaultStyles = StyleSheet.create({
     },
 
     textBold: {
+        fontFamily: Typography.FONT_NUNITO_BOLD,
         fontWeight: Typography.FONT_WEIGHT_BOLD
     }
 

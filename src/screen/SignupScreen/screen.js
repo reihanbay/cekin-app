@@ -16,18 +16,6 @@ const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [name, setName] = React.useState('')
-    const [initialized, setInitialized] = React.useState(true)
-    const [user, setUser] = React.useState()
-
-    React.useEffect(() => {
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-    }, [])
-
-    const onAuthStateChanged = (user) => {
-        setUser(user)
-        if (initialized) setInitialized(false)
-    }
 
     const registerWithEmailAndPassword = (email, password) => {
         console.log('resgister with ' + email, password)
@@ -35,6 +23,7 @@ const SignupScreen = ({ navigation }) => {
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
                 console.log('User Account Registered & signed in')
+                navigation.navigate('Home')
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -55,7 +44,6 @@ const SignupScreen = ({ navigation }) => {
             .then(() => console.log('User signed out!'));
     }
 
-    if (initialized) return null
 
     /**
      *

@@ -7,7 +7,7 @@ import styles from './styles'
 
 const Indicator = ({ visible }) => {
     return (
-        <Modal isVisible={visible}>
+        <Modal isVisible={visible} animationIn={'fadeIn'} animationOut={'fadeOut'} animationInTiming={300} animationOutTiming={300}>
             <View style={styles.container}>
                 <CirclesLoader color={Colors.COLOR_RED} />
             </View>

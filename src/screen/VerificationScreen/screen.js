@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, Image, StatusBar } from 'react-native'
+import { View, Text, Image, StatusBar, ToastAndroid } from 'react-native'
 import Button from '../../component/Button/component'
 import { Colors } from '../../styles'
 import { defaultStyles } from '../../styles/DefaultText'
@@ -10,20 +10,26 @@ import styles from './styles'
 import auth from '@react-native-firebase/auth'
 
 const VerificationScreen = ({ navigation }) => {
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const user = auth().currentUser
 
-    function signInWithEmailPassword(email, password) {
-        console.log('login with ' + email, password)
-        auth()
-            .signInWithEmailAndPassword(email, password)
+    function ResendCode() {
+        user
+            .sendEmailVerification()
             .then(() => {
-                console.log('Signed with email and password')
-                navigation.navigate('Home')
+                ToastAndroid.show('Kode berhasil dikirim ulang!', ToastAndroid.SHORT)
             })
-            .catch(error => {
-                console.log(error.code)
-            })
+            .catch(error => console.log(error))
+    }
+
+    function Verify() {
+        user.emailVerified ? gotoHome() : ToastAndroid.show('Akun belum terverifikasi!', ToastAndroid.SHORT)
+    }
+
+    function gotoHome() {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+        })
     }
 
     /**
@@ -52,7 +58,7 @@ const VerificationScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button title={'Verifikasi'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
+                <Button title={'Verifikasi'} containerStyle={styles.button} onPress={() => Verify()} />
             </View>
         )
     }

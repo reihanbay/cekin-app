@@ -58,7 +58,14 @@ const AppStack = () => {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
+      <NavigationContainer linking={{
+        prefixes: ['cekin://'],
+        config: {
+          screens: {
+            Verifikasi: 'verify'
+          }
+        }
+      }}>
         <AuthStack />
         {
           /*

@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { View, Text, Image, KeyboardAvoidingView, StatusBar } from 'react-native'
+import { View, Text, Image, ToastAndroid, StatusBar } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Button from '../../component/Button/component'
 import Input from '../../component/Input/component'
-//import CustomStatusBar from '../../component/StatusBar/component'
 import { Colors } from '../../styles'
 import { defaultStyles } from '../../styles/DefaultText'
 import { IMAGES } from '../../styles/Images'
@@ -17,14 +16,43 @@ const SigninScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [indicator, showIndicator] = React.useState(false)
+    const [emailError, setEmailError] = React.useState(false)
+    const [emailErrorMsg, setEmailErrorMsg] = React.useState('')
+    const [passwordError, setPasswordError] = React.useState(false)
+    const [passwordErrorMsg, setPasswordErrorMsg] = React.useState('')
+    const user = auth().currentUser
 
     function signInWithEmailPassword(email, password) {
+        showIndicator(true)
         console.log('login with ' + email, password)
         auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
+                showIndicator(false)
                 console.log('Signed with email and password')
-                navigation.navigate('Home')
+                user.emailVerified ? navigation.navigate('Home') : sendVerifivationEmail()
+            })
+            .catch(error => {
+                showIndicator(false)
+                console.log(error.code)
+                if (error.code == 'auth/invalid-email') {
+                    setEmailErrorMsg('Format email salah!')
+                    setEmailError(true)
+                } else if (error.code == 'auth/user-not-found') {
+                    ToastAndroid.show('Pengguna tidak ditemukan!', ToastAndroid.SHORT)
+                }
+            })
+    }
+
+    function sendVerifivationEmail() {
+        console.log('sending email verification')
+        user
+            .sendEmailVerification()
+            .then(() => {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Verifikasi' }],
+                })
             })
             .catch(error => {
                 console.log(error.code)
@@ -52,8 +80,10 @@ const SigninScreen = ({ navigation }) => {
                 <Input
                     placeholder={'Masukan Email'}
                     value={email}
-                    onChangeText={(text) => setEmail(text)}
+                    onChangeText={(text) => (setEmail(text), setEmailError(false))}
                     keyboardType={'email-address'}
+                    isError={emailError}
+                    errorMessage={emailErrorMsg}
                     style={[styles.input, defaultStyles.textNormalDefault]} />
                 <Input
                     placeholder={'Masukan 6 digit kode akses'}
@@ -61,8 +91,10 @@ const SigninScreen = ({ navigation }) => {
                     keyboardType={'numeric'}
                     returnKeyType={'done'}
                     maxLength={6}
-                    onChangeText={(text) => setPassword(text)}
+                    onChangeText={(text) => (setPassword(text), setPasswordError(false))}
                     hidePassword
+                    isError={passwordError}
+                    errorMessage={passwordErrorMsg}
                     style={[styles.input, defaultStyles.textNormalDefault]} />
             </View>
         )
@@ -71,7 +103,7 @@ const SigninScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button disabled title={'Masuk'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
+                <Button disabled={!email || !password} title={'Masuk'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
             </View>
         )
     }
@@ -88,7 +120,7 @@ const SigninScreen = ({ navigation }) => {
         return (
             <View style={styles.bottomContainer}>
                 <Text style={defaultStyles.textNormalDefault}>Belum punya akun?</Text>
-                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => signInWithEmailPassword(email, password)}>
+                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => navigation.navigate('Daftar')}>
                     <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>Daftar</Text>
                 </TouchableOpacity>
             </View>

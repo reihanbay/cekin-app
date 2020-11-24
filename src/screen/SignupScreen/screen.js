@@ -11,11 +11,13 @@ import styles from './styles'
 
 //firebase
 import auth from '@react-native-firebase/auth'
+import { WriteToDatabase } from '../../services/Firebase'
 
 const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [name, setName] = React.useState('')
+    const user = auth().currentUser
 
     const registerWithEmailAndPassword = (email, password) => {
         console.log('resgister with ' + email, password)
@@ -23,7 +25,7 @@ const SignupScreen = ({ navigation }) => {
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
                 console.log('User Account Registered & signed in')
-                navigation.navigate('Home')
+                saveDataToDatabase()
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -35,6 +37,30 @@ const SignupScreen = ({ navigation }) => {
                 }
 
                 console.error(error);
+            })
+    }
+
+    function saveDataToDatabase() {
+        console.log('saving data')
+        const data = {
+            name: name,
+            email: email,
+        }
+        WriteToDatabase('/Root/Users/', data, true, () => sendVerificationEmail(), error => console.log(error))
+    }
+
+    function sendVerificationEmail() {
+        console.log('sending email verification')
+        user
+            .sendEmailVerification()
+            .then(() => {
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Verifikasi' }],
+                })
+            })
+            .catch(error => {
+                console.log(error.code)
             })
     }
 

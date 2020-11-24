@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { TextInput } from 'react-native'
-import { Colors } from '../../styles'
+import { TextInput, Text, View } from 'react-native'
+import { Colors, Mixins } from '../../styles'
+import { defaultStyles } from '../../styles/DefaultText'
 import styles from './styles'
 
 const Input = ({
@@ -11,20 +12,34 @@ const Input = ({
     returnKeyType,
     maxLength,
     onChangeText,
-    value
+    value,
+    isError,
+    errorMessage = 'error massage here'
 }) => {
+    const [state, setState] = React.useState('blur')
+
     return (
-        <TextInput
-            style={[styles.container, style]}
-            placeholderTextColor={Colors.COLOR_LIGHT_GRAY}
-            placeholder={placeholder}
-            secureTextEntry={hidePassword}
-            keyboardType={keyboardType}
-            returnKeyType={returnKeyType}
-            maxLength={maxLength}
-            onChangeText={onChangeText}
-            value={value}
-        />
+        <>
+            <TextInput
+                style={[state == 'focus' ? styles.containerFocus : styles.container, style]}
+                placeholderTextColor={Colors.COLOR_LIGHT_GRAY}
+                placeholder={placeholder}
+                onFocus={() => setState('focus')}
+                onBlur={() => setState('blur')}
+                secureTextEntry={hidePassword}
+                keyboardType={keyboardType}
+                returnKeyType={returnKeyType}
+                maxLength={maxLength}
+                onChangeText={onChangeText}
+                value={value}
+            />
+            {
+                isError ?
+                    <View style={styles.errorContainer}>
+                        <Text style={[styles.errorMessage, defaultStyles.textSmallDefault]}>{errorMessage}</Text>
+                    </View> : null
+            }
+        </>
     )
 }
 

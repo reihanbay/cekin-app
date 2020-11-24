@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import SigninScreen from '../screen/SigninScreen/screen'
 import SignupScreen from '../screen/SignupScreen/screen'
 import HomeScreen from '../screen/HomeScreen/screen'
+import VerificationScreen from '../screen/VerificationScreen/screen'
 
 const Stack = createStackNavigator()
 
@@ -19,6 +20,13 @@ export const AuthStack = () => {
             <Stack.Screen
                 name='Daftar'
                 component={SignupScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false
+                }} />
+            <Stack.Screen
+                name='Verifikasi'
+                component={VerificationScreen}
                 options={{
                     headerShown: false,
                     animationEnabled: false

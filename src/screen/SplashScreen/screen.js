@@ -1,11 +1,22 @@
 import * as React from 'react'
-import {View, Text} from 'react-native' 
+import { View, Image, StatusBar } from 'react-native'
+import { IMAGES } from '../../styles/Images'
 import styles from './styles'
 
-const SplashScreen = () =>{
-    return(
+const SplashScreen = ({ navigation }) => {
+    React.useEffect(() => {
+        setTimeout(() => {
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Masuk' }],
+            })
+        }, 2500)
+    }, [])
+
+    return (
         <View style={styles.container}>
-            <Text style={styles.text}>Splash HHH</Text>
+            <StatusBar hidden />
+            <Image source={IMAGES.logo} />
         </View>
     )
 }

@@ -1,11 +1,12 @@
-import {StyleSheet} from 'react-native'
-import { Typography } from '../../styles'
+import { StyleSheet } from 'react-native'
+import { Colors, Typography } from '../../styles'
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: Colors.COLOR_WHITE
     },
     text: {
         fontFamily: Typography.FONT_NUNITO_REGULAR,

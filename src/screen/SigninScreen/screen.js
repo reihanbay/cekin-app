@@ -11,10 +11,12 @@ import styles from './styles'
 
 //firebase
 import auth from '@react-native-firebase/auth'
+import Indicator from '../../component/Modal/Indicator/component'
 
 const SigninScreen = ({ navigation }) => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const [indicator, showIndicator] = React.useState(false)
 
     function signInWithEmailPassword(email, password) {
         console.log('login with ' + email, password)
@@ -69,7 +71,7 @@ const SigninScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button title={'Masuk'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
+                <Button disabled title={'Masuk'} containerStyle={styles.button} onPress={() => signInWithEmailPassword(email, password)} />
             </View>
         )
     }
@@ -86,7 +88,7 @@ const SigninScreen = ({ navigation }) => {
         return (
             <View style={styles.bottomContainer}>
                 <Text style={defaultStyles.textNormalDefault}>Belum punya akun?</Text>
-                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => navigation.navigate('Daftar')}>
+                <TouchableOpacity activeOpacity={.6} style={styles.textButton} onPress={() => signInWithEmailPassword(email, password)}>
                     <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>Daftar</Text>
                 </TouchableOpacity>
             </View>
@@ -97,6 +99,10 @@ const SigninScreen = ({ navigation }) => {
         return <StatusBar backgroundColor={Colors.COLOR_WHITE} barStyle={'dark-content'} />
     }
 
+    const IndicatorModal = () => {
+        return <Indicator visible={indicator} />
+    }
+
     return (
         <View style={styles.container}>
             {CustomStatusBar()}
@@ -105,6 +111,7 @@ const SigninScreen = ({ navigation }) => {
             {ButtonContainer()}
             {BackgroundContainer()}
             {BottomContainer()}
+            {IndicatorModal()}
         </View>
     )
 }

@@ -4,12 +4,20 @@ import SigninScreen from '../screen/SigninScreen/screen'
 import SignupScreen from '../screen/SignupScreen/screen'
 import HomeScreen from '../screen/HomeScreen/screen'
 import VerificationScreen from '../screen/VerificationScreen/screen'
+import SplashScreen from '../screen/SplashScreen/screen'
 
 const Stack = createStackNavigator()
 
 export const AuthStack = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={'Splash'}>
+            <Stack.Screen
+                name='Splash'
+                component={SplashScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false,
+                }} />
             <Stack.Screen
                 name='Masuk'
                 component={SigninScreen}

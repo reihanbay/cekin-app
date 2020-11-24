@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
 
     textButton: {
         marginHorizontal: Mixins.scaleSize(8)
+    },
+
+    subtitle: {
+        marginTop: Mixins.scaleSize(8)
     }
 })
 

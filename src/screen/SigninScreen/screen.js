@@ -39,6 +39,7 @@ const SigninScreen = ({ navigation }) => {
         return (
             <View style={styles.topContainer}>
                 <Image source={IMAGES.logo} style={styles.logo} />
+                <Text style={[defaultStyles.textNormalDefault, styles.subtitle]}>Absen Online dan Event</Text>
             </View>
         )
     }

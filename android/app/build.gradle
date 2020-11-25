@@ -148,10 +148,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('cekindebug')
+            storePassword 'Terajana80'
+            keyAlias 'cekin'
+            keyPassword 'Terajana80'
         }
     }
     buildTypes {

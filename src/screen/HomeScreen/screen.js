@@ -1,17 +1,18 @@
 import * as React from 'react'
-import { View, Text, Alert } from 'react-native'
+import { View, Text, Alert, StatusBar, Image } from 'react-native'
 import styles from './styles'
-import Button from '../../component/Button/component'
 
 //firebae
-import auth from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import { AuthContext } from '../../services/Context'
 import { WEB_CLIENT_ID } from '../../services/Firebase'
 
-const HomeScreen = ({ navigation }) => {
+//component
+import { Colors } from '../../styles'
+import { HomeTabStack } from '../../navigator/Navigator'
+
+const HomeScreen = ({ navigation, route }) => {
     const { logOut } = React.useContext(AuthContext)
-    //const user = auth().currentUser
 
     React.useEffect(() => {
         configureGoogleSignIn()
@@ -34,11 +35,10 @@ const HomeScreen = ({ navigation }) => {
         }
     }
 
-
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Hallo</Text>
-            <Button title={'logout'} containerStyle={{ width: 312 }} onPress={() => signOut().then(() => logOut())} />
+            <StatusBar backgroundColor={Colors.COLOR_WHITE} barStyle={'dark-content'} />
+            {HomeTabStack()}
         </View>
     )
 }

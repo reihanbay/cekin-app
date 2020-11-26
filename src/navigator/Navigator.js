@@ -7,6 +7,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TabIconDaily, TabIconEvent } from '../component/TabIcon/TabIcon'
 import { Colors, Typography } from '../styles'
 import { getIsTabBarVisible } from '../utlis/Utils'
+import DailyScreen from '../screen/DailyScreen/screen'
+import EventScreen from '../screen/EventScreen/screen'
+import AbsenScreen from '../screen/AbsenScreen/screen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -48,6 +51,20 @@ export const AuthStack = () => {
 
 export const HomeStack = () => {
     return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name='Home'
+                component={HomeScreen}
+                options={({ route }) => ({
+                    headerShown: false,
+                    animationEnabled: false
+                })} />
+        </Stack.Navigator>
+    )
+}
+
+export const HomeTabStack = () => {
+    return (
         <Tab.Navigator
             initialRouteName={"Daily"}
             screenOptions={({ route }) => ({
@@ -64,8 +81,8 @@ export const HomeStack = () => {
                 },
             }}>
             <Tab.Screen
-                name='Daily'
-                component={HomeScreen}
+                name='DailyStack'
+                component={DailyStack}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <TabIconDaily focused={focused} />
@@ -73,8 +90,8 @@ export const HomeStack = () => {
                     tabBarLabel: 'Harian'
                 }} />
             <Tab.Screen
-                name='Event'
-                component={HomeScreen}
+                name='EventStack'
+                component={EventScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <TabIconEvent focused={focused} />
@@ -82,5 +99,26 @@ export const HomeStack = () => {
                     tabBarLabel: 'Acara'
                 }} />
         </Tab.Navigator>
+    )
+}
+
+export const DailyStack = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name='Daily'
+                component={DailyScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false
+                }} />
+            <Stack.Screen
+                name='Absen'
+                component={AbsenScreen}
+                options={{
+                    headerShown: true,
+                    animationEnabled: false
+                }} />
+        </Stack.Navigator>
     )
 }

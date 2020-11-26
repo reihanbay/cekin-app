@@ -4,6 +4,9 @@ import HomeScreen from '../screen/HomeScreen/screen'
 import SplashScreen from '../screen/SplashScreen/screen'
 import SigninGoogleScreen from '../screen/SigninGoogleScreen/screen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { TabIconDaily, TabIconEvent } from '../component/TabIcon/TabIcon'
+import { Colors, Typography } from '../styles'
+import { getIsTabBarVisible } from '../utlis/Utils'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -45,20 +48,38 @@ export const AuthStack = () => {
 
 export const HomeStack = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            initialRouteName={"Daily"}
+            screenOptions={({ route }) => ({
+                tabBarVisible: getIsTabBarVisible(route),
+            })}
+            backBehavior={'initialRoute'}
+            tabBarOptions={{
+                activeTintColor: Colors.COLOR_RED,
+                inactiveTintColor: Colors.COLOR_LIGHT_GRAY,
+                labelStyle: {
+                    fontSize: Typography.FONT_SIZE_12,
+                    fontFamily: Typography.FONT_NUNITO_REGULAR,
+                    lineHeight: Typography.LINE_HEIGHT_14
+                },
+            }}>
             <Tab.Screen
-                name='Home'
+                name='Daily'
                 component={HomeScreen}
                 options={{
-                    headerShown: false,
-                    animationEnabled: false
+                    tabBarIcon: ({ focused }) => (
+                        <TabIconDaily focused={focused} />
+                    ),
+                    tabBarLabel: 'Harian'
                 }} />
             <Tab.Screen
-                name='Test'
+                name='Event'
                 component={HomeScreen}
                 options={{
-                    headerShown: false,
-                    animationEnabled: false
+                    tabBarIcon: ({ focused }) => (
+                        <TabIconEvent focused={focused} />
+                    ),
+                    tabBarLabel: 'Acara'
                 }} />
         </Tab.Navigator>
     )

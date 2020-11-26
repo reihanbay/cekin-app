@@ -2,16 +2,48 @@ import * as React from 'react'
 import { View, Image, StatusBar } from 'react-native'
 import { IMAGES } from '../../styles/Images'
 import styles from './styles'
+//firebae
+import { AuthContext } from '../../services/Context'
+import { WEB_CLIENT_ID } from '../../services/Firebase'
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 const SplashScreen = ({ navigation }) => {
+    const { logIn } = React.useContext(AuthContext)
+
+    React.useEffect(() => {
+        configureGoogleSignIn()
+    }, [])
+
+    function configureGoogleSignIn() {
+        GoogleSignin.configure({
+            offlineAccess: false,
+            webClientId: WEB_CLIENT_ID
+        })
+    }
+
     React.useEffect(() => {
         setTimeout(() => {
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'Masuk' }],
-            })
-        }, 2500)
+            isSignedIn()
+        }, 1500)
     }, [])
+
+    const isSignedIn = async () => {
+        const isSignedIn = await GoogleSignin.isSignedIn();
+        isSignedIn ? gotoHome() : gotoLogin()
+    };
+
+    function gotoHome() {
+        console.log('user exist')
+        logIn()
+    }
+
+    function gotoLogin() {
+        console.log('user not exist')
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'GoogleSignIn' }],
+        })
+    }
 
     return (
         <View style={styles.container}>

@@ -30,3 +30,6 @@ export const UpdateDatabase = (ref, data, onSuccess, onError) => {
         .then(() => onSuccess('Data Updated!'))
         .catch((error) => onError(error))
 }
+
+export const WEB_CLIENT_ID = '503483364950-mipbcfvqjgmhcg7meb2bjigu97aeg6g1.apps.googleusercontent.com'
+

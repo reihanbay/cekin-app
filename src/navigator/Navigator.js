@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import SigninScreen from '../screen/SigninScreen/screen'
-import SignupScreen from '../screen/SignupScreen/screen'
 import HomeScreen from '../screen/HomeScreen/screen'
-import VerificationScreen from '../screen/VerificationScreen/screen'
 import SplashScreen from '../screen/SplashScreen/screen'
+import SigninGoogleScreen from '../screen/SigninGoogleScreen/screen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 const Stack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
-export const AuthStack = () => {
+export const SplashStack = () => {
     return (
         <Stack.Navigator initialRouteName={'Splash'}>
             <Stack.Screen
@@ -19,33 +19,47 @@ export const AuthStack = () => {
                     animationEnabled: false,
                 }} />
             <Stack.Screen
-                name='Masuk'
-                component={SigninScreen}
+                name='GoogleSignIn'
+                component={AuthStack}
                 options={{
                     headerShown: false,
                     animationEnabled: false
                 }} />
+        </Stack.Navigator>
+    )
+}
+
+export const AuthStack = () => {
+    return (
+        <Stack.Navigator>
             <Stack.Screen
-                name='Daftar'
-                component={SignupScreen}
+                name='SignIn'
+                component={SigninGoogleScreen}
                 options={{
                     headerShown: false,
                     animationEnabled: false
                 }} />
-            <Stack.Screen
-                name='Verifikasi'
-                component={VerificationScreen}
-                options={{
-                    headerShown: false,
-                    animationEnabled: false
-                }} />
-            <Stack.Screen
+        </Stack.Navigator>
+    )
+}
+
+export const HomeStack = () => {
+    return (
+        <Tab.Navigator>
+            <Tab.Screen
                 name='Home'
                 component={HomeScreen}
                 options={{
                     headerShown: false,
                     animationEnabled: false
                 }} />
-        </Stack.Navigator>
+            <Tab.Screen
+                name='Test'
+                component={HomeScreen}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false
+                }} />
+        </Tab.Navigator>
     )
 }

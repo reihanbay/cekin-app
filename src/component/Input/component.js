@@ -14,7 +14,8 @@ const Input = ({
     onChangeText,
     value,
     isError,
-    errorMessage = 'error massage here'
+    errorMessage = 'error massage here',
+    onBlur
 }) => {
     const [state, setState] = React.useState('blur')
 
@@ -25,7 +26,7 @@ const Input = ({
                 placeholderTextColor={Colors.COLOR_LIGHT_GRAY}
                 placeholder={placeholder}
                 onFocus={() => setState('focus')}
-                onBlur={() => setState('blur')}
+                onBlur={() => (setState('blur'), onBlur ? onBlur() : null)}
                 secureTextEntry={hidePassword}
                 keyboardType={keyboardType}
                 returnKeyType={returnKeyType}

@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-//import { SplashStackScreen, AuthStackScreen, AppScreen } from './navigators/AppNavigator'
-//import * as FirebaseService from '../src/services/FirebaseService'
 import { AuthContext } from './services/Context'
-import { AuthStack } from './navigator/Navigator';
+import { AuthStack, HomeStack, SplashStack } from './navigator/Navigator';
 //Firebase
 
 //Firebase Analytics
@@ -29,18 +27,6 @@ const AppStack = () => {
             token: 'token2020',
             isLoading: false
           }
-        case 'DONE':
-          return {
-            ...prevState,
-            token: 'done2020',
-            isLoading: false
-          }
-        case 'AUTH':
-          return {
-            ...prevState,
-            token: null,
-            isLoading: false
-          }
       }
     },
     {
@@ -52,29 +38,17 @@ const AppStack = () => {
   const authContext = React.useMemo(() => ({
     logOut: () => dispatch({ type: 'LOG_OUT' }),
     logIn: () => dispatch({ type: 'SIGN_IN' }),
-    doAuth: () => dispatch({ type: 'AUTH' }),
-    doDone: () => dispatch({ type: 'DONE' })
   }), [])
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer linking={{
-        prefixes: ['cekin://'],
-        config: {
-          screens: {
-            Verifikasi: 'verify'
-          }
-        }
-      }}>
-        <AuthStack />
+      <NavigationContainer>
         {
-          /*
-          state.isLoading ? <AuthStack /> : (
+          state.isLoading ? <SplashStack /> : (
             state.token !== null
-              ? <SignupScreen />
+              ? <HomeStack />
               : <AuthStack />
           )
-          */
         }
       </NavigationContainer>
     </AuthContext.Provider>

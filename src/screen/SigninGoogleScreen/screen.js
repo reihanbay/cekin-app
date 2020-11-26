@@ -1,38 +1,44 @@
 import * as React from 'react'
-import { View, Text, Image, StatusBar, ToastAndroid } from 'react-native'
-import Button from '../../component/Button/component'
+import { View, Text, Image, StatusBar, Alert } from 'react-native'
+import Button from '../../component/GoogleButton/component'
 import { Colors } from '../../styles'
 import { defaultStyles } from '../../styles/DefaultText'
 import { IMAGES } from '../../styles/Images'
 import styles from './styles'
 
 //firebase
+import { GoogleSignin } from '@react-native-community/google-signin'
 import auth from '@react-native-firebase/auth'
+import { AuthContext } from '../../services/Context'
 
-const VerificationScreen = ({ navigation }) => {
-    const user = auth().currentUser
+//firebase
+import Indicator from '../../component/Modal/Indicator/component'
+import { WEB_CLIENT_ID } from '../../services/Firebase'
 
-    function ResendCode() {
-        const user = auth().currentUser
-        user
-            .sendEmailVerification()
-            .then(() => {
-                ToastAndroid.show('Kode berhasil dikirim ulang!', ToastAndroid.SHORT)
-            })
-            .catch(error => console.log(error))
-    }
+const SigninGoogleScreen = ({ navigation }) => {
+    const { logIn } = React.useContext(AuthContext)
 
-    function Verify() {
-        const user = auth().currentUser
-        user.emailVerified ? gotoHome() : ToastAndroid.show('Akun belum terverifikasi!', ToastAndroid.SHORT)
-    }
+    const [indicator, showIndicator] = React.useState(false)
 
-    function gotoHome() {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
+
+    React.useEffect(() => {
+        configureGoogleSignIn()
+    }, [])
+
+    function configureGoogleSignIn() {
+        GoogleSignin.configure({
+            offlineAccess: false,
+            webClientId: WEB_CLIENT_ID
         })
     }
+    async function SignInWithGoogle() {
+        showIndicator(true)
+        const { idToken } = await GoogleSignin.signIn()
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+
+        return auth().signInWithCredential(googleCredential)
+    }
+
 
     /**
      *
@@ -45,14 +51,7 @@ const VerificationScreen = ({ navigation }) => {
             <View style={styles.topContainer}>
                 <Image source={IMAGES.logo} style={styles.logo} />
                 <Text style={[defaultStyles.textNormalDefault, styles.subtitle]}>Absen Online dan Event</Text>
-            </View>
-        )
-    }
-
-    const CenterContainer = () => {
-        return (
-            <View style={styles.centerContainer}>
-                <Text style={[styles.textContent, defaultStyles.textNormalDefault]}>Kami sudah mengirim link verifikasi ke {user.email}. Mohon verifikasi untuk mengaktifkan akun Anda.</Text>
+                {ButtonContainer()}
             </View>
         )
     }
@@ -60,7 +59,7 @@ const VerificationScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button title={'Verifikasi'} containerStyle={styles.button} onPress={() => Verify()} />
+                <Button onPress={() => SignInWithGoogle().then(() => logIn())} />
             </View>
         )
     }
@@ -77,15 +76,18 @@ const VerificationScreen = ({ navigation }) => {
         return <StatusBar backgroundColor={Colors.COLOR_WHITE} barStyle={'dark-content'} />
     }
 
+    const IndicatorModal = () => {
+        return <Indicator visible={indicator} />
+    }
+
     return (
         <View style={styles.container}>
             {CustomStatusBar()}
             {LogoContainer()}
-            {CenterContainer()}
-            {ButtonContainer()}
             {BackgroundContainer()}
+            {IndicatorModal()}
         </View>
     )
 }
 
-export default VerificationScreen
+export default SigninGoogleScreen

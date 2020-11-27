@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, Image, StatusBar, Alert } from 'react-native'
+import { View, Text, Image, StatusBar } from 'react-native'
 import Button from '../../component/GoogleButton/component'
 import { Colors } from '../../styles'
 import { defaultStyles } from '../../styles/DefaultText'
@@ -13,7 +13,8 @@ import { AuthContext } from '../../services/Context'
 
 //firebase
 import Indicator from '../../component/Modal/Indicator/component'
-import { WEB_CLIENT_ID } from '../../services/Firebase'
+import { ReadDatabase, WEB_CLIENT_ID, WriteToDatabase } from '../../services/Firebase'
+import { stringToMD5 } from '../../utlis/Utils'
 
 const SigninGoogleScreen = ({ navigation }) => {
     const { logIn } = React.useContext(AuthContext)
@@ -39,6 +40,25 @@ const SigninGoogleScreen = ({ navigation }) => {
         return auth().signInWithCredential(googleCredential)
     }
 
+    function checkUser() {
+        console.log('checking user')
+        const user = auth().currentUser
+        const hash = stringToMD5(user?.email)
+        const path = `/Root/Users/${hash}`
+
+        ReadDatabase(path, (value) => value ? logIn() : saveDataToDatabase(user, path), error => console.log('Error'))
+
+    }
+
+    async function saveDataToDatabase(user, path) {
+        console.log('Save data to db')
+        const data = {
+            name: user?.displayName,
+            email: user?.email
+        }
+        WriteToDatabase(path, data, false, () => logIn(), error => console.log('Error'))
+    }
+
 
     /**
      *
@@ -59,7 +79,7 @@ const SigninGoogleScreen = ({ navigation }) => {
     const ButtonContainer = () => {
         return (
             <View style={styles.buttonContainer}>
-                <Button onPress={() => SignInWithGoogle().then(() => logIn())} />
+                <Button onPress={() => SignInWithGoogle().then(() => checkUser())} />
             </View>
         )
     }

@@ -15,7 +15,8 @@ const Input = ({
     value,
     isError,
     errorMessage = 'error massage here',
-    onBlur
+    onBlur,
+    editable
 }) => {
     const [state, setState] = React.useState('blur')
 
@@ -33,6 +34,7 @@ const Input = ({
                 maxLength={maxLength}
                 onChangeText={onChangeText}
                 value={value}
+                editable={editable}
             />
             {
                 isError ?

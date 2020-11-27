@@ -10,6 +10,7 @@ import { getIsTabBarVisible } from '../utlis/Utils'
 import DailyScreen from '../screen/DailyScreen/screen'
 import EventScreen from '../screen/EventScreen/screen'
 import AbsenScreen from '../screen/AbsenScreen/screen'
+import BottomTab from '../component/BottomTab/component'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -67,6 +68,7 @@ export const HomeTabStack = () => {
     return (
         <Tab.Navigator
             initialRouteName={"Daily"}
+            tabBar={props => <BottomTab {...props} />}
             screenOptions={({ route }) => ({
                 tabBarVisible: getIsTabBarVisible(route),
             })}
@@ -110,14 +112,14 @@ export const DailyStack = () => {
                 component={DailyScreen}
                 options={{
                     headerShown: false,
-                    animationEnabled: false
                 }} />
             <Stack.Screen
                 name='Absen'
                 component={AbsenScreen}
                 options={{
+                    title: 'Buat Absen',
                     headerShown: true,
-                    animationEnabled: false
+                    animationEnabled: false,
                 }} />
         </Stack.Navigator>
     )

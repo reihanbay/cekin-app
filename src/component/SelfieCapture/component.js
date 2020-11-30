@@ -21,8 +21,9 @@ export const cameraLaunchChangePicture = () => {
             ImagePicker.launchCamera({
                 mediaType: 'photo',
                 includeBase64: true,
-                maxHeight: 512,
-                maxWidth: 512,
+                maxHeight: 1280,
+                maxWidth: 720,
+                quality: 1
             }, (res) => {
                 console.log('launching camera')
                 //console.log('Response = ', res)

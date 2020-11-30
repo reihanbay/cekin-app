@@ -3,6 +3,8 @@ import { Colors, Mixins } from '../../styles'
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
+        bottom: 0,
         flexDirection: 'row',
         backgroundColor: Colors.COLOR_WHITE,
         elevation: 2,

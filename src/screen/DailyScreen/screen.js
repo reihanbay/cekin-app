@@ -13,8 +13,10 @@ import { AuthContext } from '../../services/Context'
 import { ReadDatabase, WEB_CLIENT_ID } from '../../services/Firebase'
 import auth from '@react-native-firebase/auth'
 import Indicator from '../../component/Modal/Indicator/component'
-import { stringToMD5 } from '../../utlis/Utils'
+import { getLocaleDate, getLocaleTime, parseNumberDateTime, stringToMD5 } from '../../utlis/Utils'
 import { IMAGES } from '../../styles/Images'
+import { fetchData } from '../../api/apiUtils'
+import { GetDataByHash, ReadDataDaily } from '../../api/api'
 
 const DailyScreen = ({ navigation }) => {
     const [indicator, showIndicator] = React.useState(false)
@@ -41,16 +43,11 @@ const DailyScreen = ({ navigation }) => {
     }, [navigation])
 
     async function getData() {
-        let datas = []
-        await database().ref('/Root/Daily/')
-            .once('value')
-            .then((snapshot) => {
-                snapshot.forEach((child) => {
-                    datas.push(child.val())
-                })
-            })
-            .catch((error) => onError(error))
-        setData(datas)
+        fetchData(GetDataByHash(hash), 'GET', null, 10000, (res) => {
+            if (res.result && !res.error) {
+                setData(res.result)
+            }
+        })
     }
 
     async function getUserName() {
@@ -93,17 +90,19 @@ const DailyScreen = ({ navigation }) => {
     function renderList() {
 
         const renderItem = ({ item }) => {
-            return <TouchableOpacity style={styles.listContainer} activeOpacity={.6}>
-                <View style={styles.listImageContainer}>
-                    <Image style={styles.listImage} source={{ uri: `data:image/png;base64,${item?.selfie}` }} />
-                </View>
-                <View style={styles.listInfo}>
-                    <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>{item.name}</Text>
-                    <Text>{item.date}</Text>
-                    <Text style={[defaultStyles.textSmallDefault, styles.listTime]}>dikirim pukul {item.time}</Text>
-                </View>
-                <Image source={IMAGES.checklist} />
-            </TouchableOpacity>
+            return (
+                <TouchableOpacity style={styles.listContainer} activeOpacity={.6}>
+                    <View style={styles.listImageContainer}>
+                        <Image style={styles.listImage} source={IMAGES.tabIconDailyOff} />
+                    </View>
+                    <View style={styles.listInfo}>
+                        <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>{item.name}</Text>
+                        <Text>{parseNumberDateTime(item.datetime).date}</Text>
+                        <Text style={[defaultStyles.textSmallDefault, styles.listTime]}>dikirim pukul {parseNumberDateTime(item.datetime).time}</Text>
+                    </View>
+                    <Image source={IMAGES.checklist} />
+                </TouchableOpacity>
+            )
         }
 
         return <View>
@@ -111,16 +110,22 @@ const DailyScreen = ({ navigation }) => {
             <FlatList
                 data={data}
                 renderItem={renderItem}
-                keyExtractor={item => item.hash}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={item => item.id.toString()}
                 contentContainerStyle={styles.list}
             />
         </View>
     }
 
-    function renderFabTest() {
+    function renderCheckInButton() {
         return (
-            <TouchableOpacity activeOpacity={.6} style={styles.fabContainer} onPress={() => name ? navigation.navigate('Absen', { name: name, hash: hash }) : null}>
-                <Text style={[styles.fabText, defaultStyles.textBold, defaultStyles.textLargeDefault]}>+</Text>
+            <TouchableOpacity style={styles.buttonContainer} activeOpacity={.6} onPress={() => name ? navigation.navigate('Absen', { name: name, hash: hash }) : null}>
+                <View style={styles.listImagePlusContainer}>
+                    <Text style={[styles.fabText, defaultStyles.textBold, defaultStyles.textLargeDefault]}>+</Text>
+                </View>
+                <View style={styles.listInfo}>
+                    <Text style={[defaultStyles.textNormalDefault]}>Tambahkan absen baru</Text>
+                </View>
             </TouchableOpacity>
         )
     }
@@ -132,8 +137,8 @@ const DailyScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             {renderHeader()}
-            {renderList()}
-            {renderFabTest()}
+            {renderCheckInButton()}
+            {data ? renderList() : null}
             {IndicatorModal()}
         </View>
     )

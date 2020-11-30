@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     },
 
     titles: {
+        marginHorizontal: Mixins.scaleSize(12),
         padding: Mixins.scaleSize(12)
     },
 
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     },
 
     fabText: {
-        color: Colors.COLOR_WHITE
+        color: Colors.COLOR_DARK_GRAY
     },
 
     listContainer: {
@@ -73,6 +74,20 @@ const styles = StyleSheet.create({
         padding: Mixins.scaleSize(12)
     },
 
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.COLOR_WHITE,
+        marginTop: Mixins.scaleSize(14),
+        marginHorizontal: Mixins.scaleSize(24),
+        borderRadius: 6,
+        padding: Mixins.scaleSize(12)
+    },
+
+    list: {
+        paddingBottom: Mixins.scaleSize(280)
+    },
+
     listInfo: {
         flex: 1,
         paddingHorizontal: Mixins.scaleSize(10)
@@ -81,8 +96,19 @@ const styles = StyleSheet.create({
     listImageContainer: {
         backgroundColor: Colors.COLOR_GRAY,
         borderRadius: 6,
+        alignItems: 'center',
+        justifyContent: 'center',
         height: Mixins.scaleSize(62),
         width: Mixins.scaleSize(62)
+    },
+
+    listImagePlusContainer: {
+        backgroundColor: Colors.COLOR_GRAY,
+        borderRadius: 6,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: Mixins.scaleSize(31),
+        width: Mixins.scaleSize(31)
     },
 
     listTime: {
@@ -90,8 +116,8 @@ const styles = StyleSheet.create({
     },
 
     listImage: {
-        height: '100%',
-        width: '100%'
+        height: '70%',
+        width: '70%'
     }
 })
 

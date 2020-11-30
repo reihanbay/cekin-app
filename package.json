@@ -21,6 +21,7 @@
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
     "babel-plugin-module-resolver": "^4.0.0",
+    "lodash": "^4.17.20",
     "md5": "^2.3.0",
     "react": "16.13.1",
     "react-native": "0.63.3",

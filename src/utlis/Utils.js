@@ -57,3 +57,61 @@ export const getLocaleTime = () => {
 
     return `${hour}:${minute}:${second}`
 }
+
+export const getDateTimeNumber = () => {
+    const base = new Date()
+    let hour = base.getHours()
+    let minute = base.getMinutes()
+    let second = base.getSeconds()
+    const getDay = base.getDay()
+    let getDate = base.getDate()
+    let getMonth = base.getMonth()
+    const getYear = base.getFullYear()
+    if (hour < 10) {
+        hour = `0${hour}`
+    }
+
+    if (minute < 10) {
+        minute = `0${minute}`
+    }
+
+    if (second < 10) {
+        second = `0${second}`
+    }
+
+    if (getDate < 10) {
+        getDate = `0${getDate}`
+    }
+
+    if (getMonth < 10) {
+        getMonth = `0${getMonth}`
+    }
+
+    return `${getDay}${getDate}${getMonth}${getYear}_${hour}${minute}${second}`
+
+}
+
+export const parseNumberDateTime = (str, useSecond = false, useDay = true) => {
+    if (!str) return null
+
+    const arrDay = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    const arrMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+
+    const split = str.split('_')
+    const date = split[0]
+    const time = split[1]
+    const getDay = date.substring(0, 1)
+    const getDate = date.substring(1, 3)
+    const getMonth = date.substring(3, 5)
+    const getYear = date.substring(5, 9)
+
+    const getHour = time.substring(0, 2)
+    const getMinute = time.substring(2, 4)
+    const getSecond = time.substring(4, 6)
+
+    const dates = useDay ? `${arrDay[getDay]}, ${getDate} ${arrMonth[getMonth]} ${getYear}` : `${getDate} ${arrMonth[getMonth + 1]} ${getYear}`
+    const times = useSecond ? `${getHour}.${getMinute}.${getSecond}` : `${getHour}.${getMinute}`
+
+    return ({ date: dates, time: times })
+
+}

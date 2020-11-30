@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, ToastAndroid } from 'react-native'
 import Input from '../../component/Input/component'
 import { defaultStyles } from '../../styles/DefaultText'
-import { getLocaleDate, getLocaleTime, stringToMD5 } from '../../utlis/Utils'
+import { getDateTimeNumber, getLocaleDate, getLocaleTime, stringToMD5 } from '../../utlis/Utils'
 import Button from '../../component/Button/component'
 import Geolocation from '@react-native-community/geolocation'
 import styles from './styles'
 import { cameraLaunchChangePicture } from '../../component/SelfieCapture/component'
 import { Mixins } from '../../styles'
 import { WriteToDatabase } from '../../services/Firebase'
+import { fetchData } from '../../api/apiUtils'
 
 import Indicator from '../../component/Modal/Indicator/component'
+import { WriteDataToDaily } from '../../api/api'
 
 const AbsenScreen = ({ navigation, route }) => {
     const [imageSelfie, setImageSelfie] = React.useState()
@@ -45,25 +47,33 @@ const AbsenScreen = ({ navigation, route }) => {
 
     function submitData() {
         showIndicator(true)
-        const times = getLocaleTime()
-        const date = getLocaleDate()
+        const numberdatetime = getDateTimeNumber()
         const name = route.params.name
         const hash = route.params.hash
         const img = imageSelfie.data
         const location = position
 
-        const dateHash = stringToMD5(hash + date)
+        const dateHash = stringToMD5(hash + getLocaleDate())
 
         const data = {
             name: name,
-            date: date,
-            time: times,
-            selfie: img,
-            location: location,
-            hash: hash
+            datetime: numberdatetime,
+            longitude: location.longitude,
+            latitude: location.latitude,
+            photo: img,
+            hash: hash,
+            datehash: dateHash
         }
 
-        WriteToDatabase(`/Root/Daily/${dateHash}/`, data, false, () => navigation.goBack(), (error) => console.log(error))
+        fetchData(WriteDataToDaily, 'POST', data, 10000, (res) => {
+            if (res.result && !res.error) {
+                //showIndicator(false)
+                //ToastAndroid.show("Data telah berhasil di submit", ToastAndroid.SHORT)
+                navigation.goBack()
+            }
+        })
+
+        //WriteToDatabase(`/Root/Daily/${dateHash}/`, data, false, () => navigation.goBack(), (error) => console.log(error))
     }
 
 

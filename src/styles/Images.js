@@ -6,5 +6,6 @@ export const IMAGES = {
     tabIconDaily: require('../assets/images/dailyIcon.png'),
     tabIconDailyOff: require('../assets/images/dailyIconOff.png'),
     tabIconEvent: require('../assets/images/eventIcon.png'),
-    tabIconEventOff: require('../assets/images/eventIconOff.png')
+    tabIconEventOff: require('../assets/images/eventIconOff.png'),
+    header0: require('../assets/images/header0.png')
 }

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Colors } from '../../../styles'
+import { Colors, Mixins } from '../../../styles'
 
 const styles = StyleSheet.create({
     container: {
@@ -9,7 +9,10 @@ const styles = StyleSheet.create({
     },
 
     child: {
-        backgroundColor: Colors.COLOR_WHITE
+        backgroundColor: Colors.COLOR_WHITE,
+        paddingVertical: Mixins.scaleSize(18),
+        paddingHorizontal: Mixins.scaleSize(24),
+        borderRadius: 6
     }
 })
 

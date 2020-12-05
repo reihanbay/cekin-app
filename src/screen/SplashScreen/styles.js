@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Typography } from '../../styles'
+import { Colors, Mixins, Typography } from '../../styles'
 
 const styles = StyleSheet.create({
     container: {
@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: Typography.FONT_NUNITO_REGULAR,
         fontWeight: 'normal'
-    }
+    },
+    
 })
 
 export default styles

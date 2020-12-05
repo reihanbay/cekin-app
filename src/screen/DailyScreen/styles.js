@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native'
+import { min } from 'lodash'
+import { Dimensions, StyleSheet } from 'react-native'
 import { Colors, Mixins } from '../../styles'
 
 const styles = StyleSheet.create({
@@ -8,13 +9,27 @@ const styles = StyleSheet.create({
 
     header: {
         flexDirection: 'row',
-        backgroundColor: Colors.COLOR_WHITE,
-        padding: Mixins.scaleSize(14)
+        marginHorizontal: Mixins.scaleSize(12),
+        alignItems: 'center',
+        paddingVertical: Mixins.scaleSize(8)
     },
 
     titles: {
         marginHorizontal: Mixins.scaleSize(12),
-        padding: Mixins.scaleSize(12)
+        paddingHorizontal: Mixins.scaleSize(12),
+        paddingVertical: Mixins.scaleSize(14)
+    },
+
+    nameText: {
+        color: Colors.COLOR_WHITE
+    },
+
+    leftGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: Mixins.scaleSize(14),
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderRadius: Mixins.scaleSize(24),
     },
 
     leftContainer: {
@@ -24,7 +39,11 @@ const styles = StyleSheet.create({
     },
 
     logoutText: {
-        color: Colors.COLOR_RED
+        paddingVertical: Mixins.scaleSize(18),
+        paddingHorizontal: Mixins.scaleSize(28),
+        borderRadius: Mixins.scaleSize(32),
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        color: Colors.COLOR_WHITE
     },
 
     images: {
@@ -63,7 +82,6 @@ const styles = StyleSheet.create({
     fabText: {
         color: Colors.COLOR_DARK_GRAY
     },
-
     listContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -71,6 +89,7 @@ const styles = StyleSheet.create({
         marginVertical: Mixins.scaleSize(8),
         marginHorizontal: Mixins.scaleSize(24),
         borderRadius: 6,
+        elevation: 2.5,
         padding: Mixins.scaleSize(12)
     },
 
@@ -81,11 +100,17 @@ const styles = StyleSheet.create({
         marginTop: Mixins.scaleSize(14),
         marginHorizontal: Mixins.scaleSize(24),
         borderRadius: 6,
-        padding: Mixins.scaleSize(12)
+        padding: Mixins.scaleSize(12),
+    },
+
+    listParent: {
+        flex: 1,
     },
 
     list: {
-        paddingBottom: Mixins.scaleSize(280)
+        backgroundColor: Colors.COLOR_WHITE,
+        paddingTop: Mixins.scaleSize(14),
+        paddingBottom: Mixins.scaleSize(350)
     },
 
     listInfo: {
@@ -94,12 +119,12 @@ const styles = StyleSheet.create({
     },
 
     listImageContainer: {
-        backgroundColor: Colors.COLOR_GRAY,
+        backgroundColor: Colors.COLOR_RED,
         borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
         height: Mixins.scaleSize(62),
-        width: Mixins.scaleSize(62)
+        width: Mixins.scaleSize(8)
     },
 
     listImagePlusContainer: {
@@ -118,6 +143,12 @@ const styles = StyleSheet.create({
     listImage: {
         height: '70%',
         width: '70%'
+    },
+
+    bgImage: {
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        height: '100%'
     }
 })
 

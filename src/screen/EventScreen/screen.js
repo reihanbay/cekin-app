@@ -11,9 +11,11 @@ import { AuthContext } from '../../services/Context'
 import { WEB_CLIENT_ID } from '../../services/Firebase'
 import auth from '@react-native-firebase/auth'
 import Indicator from '../../component/Modal/Indicator/component'
+import PopUp from '../../component/Modal/PopUp/component'
 
 const EventScreen = ({ navigation }) => {
     const [indicator, showIndicator] = React.useState(false)
+    const [popup, showPopup] = React.useState(false)
 
     const user = auth().currentUser
 
@@ -59,12 +61,17 @@ const EventScreen = ({ navigation }) => {
         return <Indicator visible={indicator} />
     }
 
+    const RenderPopUp = () => {
+        return <PopUp visible={popup} msg={'test'} duration={1500} onDurationEnd={() => showPopup(false)} />
+    }
+
     return (
         <View style={styles.container}>
             {renderHeader()}
             <Text>This is Event screen</Text>
-            <TouchableText text={'Click here to navigate'} onPress={() => navigation.navigate('Absen')} />
+            <TouchableText text={'Click here to navigate'} onPress={() => showPopup(true)} />
             {IndicatorModal()}
+            {RenderPopUp()}
         </View>
     )
 }

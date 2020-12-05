@@ -8,16 +8,17 @@ import Geolocation from '@react-native-community/geolocation'
 import styles from './styles'
 import { cameraLaunchChangePicture } from '../../component/SelfieCapture/component'
 import { Mixins } from '../../styles'
-import { WriteToDatabase } from '../../services/Firebase'
 import { fetchData } from '../../api/apiUtils'
-
-import Indicator from '../../component/Modal/Indicator/component'
 import { WriteDataToDaily } from '../../api/api'
+
+import ModalSelector from '../../component/Modal/component'
 
 const AbsenScreen = ({ navigation, route }) => {
     const [imageSelfie, setImageSelfie] = React.useState()
     const [position, setPosition] = React.useState({ latitude: null, longitude: null })
     const [indicator, showIndicator] = React.useState(false)
+    const [modalMessage, setModalMessage] = React.useState('')
+    const [type, setModalType] = React.useState('loading')
 
     React.useEffect(() => {
         Geolocation.getCurrentPosition(info => {
@@ -46,6 +47,7 @@ const AbsenScreen = ({ navigation, route }) => {
     }
 
     function submitData() {
+        setModalType('loading')
         showIndicator(true)
         const numberdatetime = getDateTimeNumber()
         const name = route.params.name
@@ -69,7 +71,8 @@ const AbsenScreen = ({ navigation, route }) => {
             if (res.result && !res.error) {
                 //showIndicator(false)
                 //ToastAndroid.show("Data telah berhasil di submit", ToastAndroid.SHORT)
-                navigation.goBack()
+                setModalType('popup')
+                setModalMessage('Absen berhasil terikirim!')
             }
         })
 
@@ -104,8 +107,8 @@ const AbsenScreen = ({ navigation, route }) => {
         </View>
     }
 
-    const IndicatorModal = () => {
-        return <Indicator visible={indicator} />
+    const RenderModalSelector = () => {
+        return <ModalSelector visible={indicator} type={type} message={modalMessage} onDurationEnd={() => navigation.goBack()} />
     }
 
     return (
@@ -114,7 +117,7 @@ const AbsenScreen = ({ navigation, route }) => {
             {renderPhotoButtonContainer()}
             {renderTopContainer()}
             {renderBottomContainer()}
-            {IndicatorModal()}
+            {RenderModalSelector()}
         </ScrollView>
     )
 }

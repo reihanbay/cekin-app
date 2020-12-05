@@ -6,6 +6,7 @@ import styles from './styles'
 import { AuthContext } from '../../services/Context'
 import { WEB_CLIENT_ID } from '../../services/Firebase'
 import { GoogleSignin } from '@react-native-community/google-signin'
+import { defaultStyles } from '../../styles/DefaultText'
 
 const SplashScreen = ({ navigation }) => {
     const { logIn } = React.useContext(AuthContext)

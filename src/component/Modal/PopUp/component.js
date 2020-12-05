@@ -1,13 +1,24 @@
-import * as Reacr from 'react'
+import * as React from 'react'
 import { View, Text } from 'react-native'
+import Modal from 'react-native-modal'
 import styles from './styles'
 
-const PopUp = ({ visible, msg, duration }) => {
+const PopUp = ({ visible, msg, duration = 500, onDurationEnd }) => {
+    React.useEffect(() => {
+        if (visible) {
+            setTimeout(() => {
+                console.log('Hide it')
+                onDurationEnd()
+                clearTimeout()
+            }, duration);
+        }
+    }, [visible])
+
     return (
-        <Modal isVisible={visible} animationIn={'fadeIn'} animationOut={'fadeOut'} animationInTiming={300} animationOutTiming={300}>
+        <Modal useNativeDriver isVisible={visible} animationIn={'fadeIn'} animationOut={'fadeOut'} animationInTiming={300} animationOutTiming={300}>
             <View style={styles.container}>
                 <View style={styles.child}>
-                    <Text>This is Message</Text>
+                    <Text>{msg}</Text>
                 </View>
             </View>
         </Modal>

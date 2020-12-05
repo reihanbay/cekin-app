@@ -1,22 +1,23 @@
 import * as React from 'react'
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, Image, TouchableOpacity, FlatList, StatusBar, Platform, Animated, ScrollView } from 'react-native'
 import TouchableText from '../../component/TouchableText/component'
-import Button from '../../component/Button/component'
+import AnimatedHeader from '../../component/AnimatedHaeder/component'
 import { defaultStyles } from '../../styles/DefaultText'
 import styles from './styles'
 
 
 //firebae
-import database from '@react-native-firebase/database'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import { AuthContext } from '../../services/Context'
 import { ReadDatabase, WEB_CLIENT_ID } from '../../services/Firebase'
 import auth from '@react-native-firebase/auth'
 import Indicator from '../../component/Modal/Indicator/component'
-import { getLocaleDate, getLocaleTime, parseNumberDateTime, stringToMD5 } from '../../utlis/Utils'
+import { parseNumberDateTime, stringToMD5 } from '../../utlis/Utils'
 import { IMAGES } from '../../styles/Images'
 import { fetchData } from '../../api/apiUtils'
-import { GetDataByHash, ReadDataDaily } from '../../api/api'
+import { GetDataByHash } from '../../api/api'
+import SwipeableModal from '../../component/Modal/SwipeableModal/component'
+import { Colors } from '../../styles'
 
 const DailyScreen = ({ navigation }) => {
     const [indicator, showIndicator] = React.useState(false)
@@ -25,6 +26,8 @@ const DailyScreen = ({ navigation }) => {
 
     const user = auth().currentUser
     const hash = stringToMD5(user.email)
+
+    const offset = React.useRef(new Animated.Value(0)).current
 
     const { logOut } = React.useContext(AuthContext)
 
@@ -73,17 +76,31 @@ const DailyScreen = ({ navigation }) => {
         }
     }
 
-    function renderHeader() {
+    function renderTopContainer() {
         return (
-            <View style={styles.header}>
-                <View style={styles.leftContainer}>
-                    <View style={styles.profileImage}>
-                        <Image source={{ uri: user?.photoURL }} style={styles.images} />
+            <>
+                <StatusBar backgroundColor={Colors.COLOR_RED} barStyle={'light-content'} />
+                <Image source={IMAGES.header0} style={styles.bgImage} resizeMode={'cover'} />
+                <View style={styles.header}>
+                    <View style={styles.leftContainer}>
+                        <View style={styles.leftGroup}>
+                            <View style={styles.profileImage}>
+                                <Image source={{ uri: user?.photoURL }} style={styles.images} />
+                            </View>
+                            <Text style={[defaultStyles.textNormalDefault, styles.nameText]}>Halo, {name}</Text>
+                        </View>
                     </View>
-                    <Text style={[defaultStyles.textNormalDefault]}>Halo, {name}</Text>
+                    <TouchableText text={'Keluar'} textstyle={styles.logoutText} onPress={() => signOut().then(() => logOut())} />
                 </View>
-                <TouchableText text={'Keluar'} textstyle={styles.logoutText} onPress={() => signOut().then(() => logOut())} />
-            </View>
+                <TouchableOpacity style={styles.buttonContainer} activeOpacity={.6} onPress={() => name ? navigation.navigate('Absen', { name: name, hash: hash }) : null}>
+                    <View style={styles.listImagePlusContainer}>
+                        <Text style={[styles.fabText, defaultStyles.textBold, defaultStyles.textLargeDefault]}>+</Text>
+                    </View>
+                    <View style={styles.listInfo}>
+                        <Text style={[defaultStyles.textNormalDefault]}>Tambahkan absen baru</Text>
+                    </View>
+                </TouchableOpacity>
+            </>
         )
     }
 
@@ -92,9 +109,7 @@ const DailyScreen = ({ navigation }) => {
         const renderItem = ({ item }) => {
             return (
                 <TouchableOpacity style={styles.listContainer} activeOpacity={.6}>
-                    <View style={styles.listImageContainer}>
-                        <Image style={styles.listImage} source={IMAGES.tabIconDailyOff} />
-                    </View>
+                    <View style={styles.listImageContainer} />
                     <View style={styles.listInfo}>
                         <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold]}>{item.name}</Text>
                         <Text>{parseNumberDateTime(item.datetime).date}</Text>
@@ -105,28 +120,25 @@ const DailyScreen = ({ navigation }) => {
             )
         }
 
-        return <View>
-            <Text style={[defaultStyles.textNormalDefault, defaultStyles.textBold, styles.titles]} >Riwayat Absen Harian</Text>
+        return (
             <FlatList
+                style={styles.listParent}
                 data={data}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
                 contentContainerStyle={styles.list}
-            />
-        </View>
+                scrollEventThrottle={16}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: offset } } }],
+                    { useNativeDriver: false }
+                )} />
+        )
     }
 
-    function renderCheckInButton() {
+    function renderSwipeableModal() {
         return (
-            <TouchableOpacity style={styles.buttonContainer} activeOpacity={.6} onPress={() => name ? navigation.navigate('Absen', { name: name, hash: hash }) : null}>
-                <View style={styles.listImagePlusContainer}>
-                    <Text style={[styles.fabText, defaultStyles.textBold, defaultStyles.textLargeDefault]}>+</Text>
-                </View>
-                <View style={styles.listInfo}>
-                    <Text style={[defaultStyles.textNormalDefault]}>Tambahkan absen baru</Text>
-                </View>
-            </TouchableOpacity>
+            <SwipeableModal renderChild={() => renderList()} />
         )
     }
 
@@ -136,9 +148,8 @@ const DailyScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {renderHeader()}
-            {renderCheckInButton()}
-            {data ? renderList() : null}
+            {renderTopContainer()}
+            {renderSwipeableModal()}
             {IndicatorModal()}
         </View>
     )

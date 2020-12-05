@@ -34,7 +34,7 @@ export const getLocaleDate = () => {
     const getMonth = event.getMonth()
     const getYear = event.getFullYear()
 
-    return `${arrDay[getDay]}, ${getDate} ${arrMonth[getMonth + 1]} ${getYear}`
+    return `${arrDay[getDay]}, ${getDate} ${arrMonth[getMonth]} ${getYear}`
 }
 
 export const getLocaleTime = () => {

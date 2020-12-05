@@ -11,6 +11,7 @@ import DailyScreen from '../screen/DailyScreen/screen'
 import EventScreen from '../screen/EventScreen/screen'
 import AbsenScreen from '../screen/AbsenScreen/screen'
 import BottomTab from '../component/BottomTab/component'
+import DetailScreen from '../screen/DetailScreen/screen'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -18,6 +19,7 @@ const Tab = createBottomTabNavigator()
 export const SplashStack = () => {
     return (
         <Stack.Navigator initialRouteName={'Splash'}>
+            
             <Stack.Screen
                 name='Splash'
                 component={SplashScreen}
@@ -93,7 +95,7 @@ export const HomeTabStack = () => {
                 }} />
             <Tab.Screen
                 name='EventStack'
-                component={EventScreen}
+                component={EventStack}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <TabIconEvent focused={focused} />
@@ -121,6 +123,34 @@ export const DailyStack = () => {
                     headerShown: true,
                     animationEnabled: false,
                 }} />
+            <Stack.Screen
+                name='Detail'
+                component={DetailScreen}
+                options={{
+                    title: 'Detail Absen',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}/>
+        </Stack.Navigator>
+    )
+}
+export const EventStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+            name = 'Event'
+            component= {EventScreen}
+            options={{
+                headerShown: false,
+            }}/>
+            <Stack.Screen
+                name='Absen'
+                component={AbsenScreen}
+                options={{
+                    title: 'Buat Absen',
+                    headerShown: true,
+                    animationEnabled: false,
+            }} />
         </Stack.Navigator>
     )
 }

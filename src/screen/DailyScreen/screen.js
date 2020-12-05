@@ -91,7 +91,7 @@ const DailyScreen = ({ navigation }) => {
 
         const renderItem = ({ item }) => {
             return (
-                <TouchableOpacity style={styles.listContainer} activeOpacity={.6}>
+                <TouchableOpacity style={styles.listContainer} activeOpacity={.6} onPress={() => name ? navigation.navigate('Detail',{ name: name, id: item.id, date: item.datetime}): null}>
                     <View style={styles.listImageContainer}>
                         <Image style={styles.listImage} source={IMAGES.tabIconDailyOff} />
                     </View>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, Image } from 'react-native';
 import { defaultStyles } from '../../styles/DefaultText'
 import Input from '../../component/Input/component'
 import { Mixins } from '../../styles'
@@ -23,7 +23,8 @@ const DetailScreen = ({ navigation, route }) => {
     async function getData() {
         fetchData(GetDetailDatabyId(route.params.id), 'GET', null, 10000, (res) => {
             if (res.result && !res.error) {
-                setData(res.result)
+                setData(res.result[0].photo)
+                console.log(res.result[0].photo);
             }
         })
     }
@@ -40,9 +41,8 @@ const DetailScreen = ({ navigation, route }) => {
     ]
 
     function renderPhotoContainer(){
-        console.log(data);
-        // return imageSelfie ? <Image source={{ uri: imageSelfie?.uri }} style={styles.images} /> : null
-        return <View style={styles.images}>
+        var base64Pict = data
+        return base64Pict ? <Image source={{uri: `data:image/png;base64,${base64Pict}`}} style={styles.images} /> : <View style={styles.images}>
             <Text style={styles.textRed}>Image not found</Text>
         </View>
     }

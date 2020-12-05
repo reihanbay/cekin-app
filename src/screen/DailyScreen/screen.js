@@ -119,7 +119,6 @@ const DailyScreen = ({ navigation }) => {
                 </TouchableOpacity>
             )
         }
-
         return (
             <FlatList
                 style={styles.listParent}

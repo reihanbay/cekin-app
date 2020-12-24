@@ -1,11 +1,16 @@
+import { mixin } from 'lodash'
 import { StyleSheet } from 'react-native'
 import { Colors, Mixins } from '../../styles'
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: Mixins.scaleSize(20)
     },
 
+    countContainer: {
+        margin: Mixins.scaleSize(4)
+    },
     header: {
         flexDirection: 'row',
         backgroundColor: Colors.COLOR_WHITE,
@@ -48,7 +53,10 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: Mixins.scaleSize(12),
     },
-
+    listParent: {
+        flex: 1,
+        paddingTop: Mixins.scaleSize(16)
+    },
     listImagePlusContainer: {
         backgroundColor: Colors.COLOR_WHITE,
         borderRadius: 6,
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.COLOR_WHITE,
         marginVertical: Mixins.scaleSize(8),
-        marginHorizontal: Mixins.scaleSize(24),
+        marginHorizontal: Mixins.scaleSize(4),
         borderRadius: 6,
         elevation: 2.5,
         padding: Mixins.scaleSize(12)
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
         height: Mixins.scaleSize(62),
         width: Mixins.scaleSize(8)
     },
-    listTime: {
+    textGray: {
         color: Colors.COLOR_DARK_GRAY
     },
 })

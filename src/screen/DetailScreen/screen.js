@@ -42,6 +42,7 @@ const DetailScreen = ({ navigation, route }) => {
 
     function renderPhotoContainer(){
         var base64Pict = data
+        console.log(base64Pict);
         return base64Pict ? <Image source={{uri: `data:image/png;base64,${base64Pict}`}} style={styles.images} /> : <View style={styles.images}>
             <Text style={styles.textRed}>Image not found</Text>
         </View>

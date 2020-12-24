@@ -1,7 +1,10 @@
 import * as React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack'
 import HomeScreen from '../screen/HomeScreen/screen'
 import SplashScreen from '../screen/SplashScreen/screen'
+import AddEventScreen from '../screen/AddEventScreen/screen'
+import AbsenEventScreen from '../screen/AbsenEventScreen/screen'
+import DetailEventScreen from '../screen/DetailEventScreen/screen'
 import SigninGoogleScreen from '../screen/SigninGoogleScreen/screen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { TabIconDaily, TabIconEvent } from '../component/TabIcon/TabIcon'
@@ -144,13 +147,90 @@ export const EventStack = () => {
                 headerShown: false,
             }}/>
             <Stack.Screen
-                name='Absen'
-                component={AbsenScreen}
+                name='AddEvent'
+                component={AddEventStack}
                 options={{
-                    title: 'Buat Absen',
+                    headerShown: false,
+                    animationEnabled: false,
+            }} />
+            <Stack.Screen
+                name='FlowEvent'
+                component={FlowEventStack}
+                options={{
+                    headerShown: false,
+                    animationEnabled: false,
+            }} />
+            
+        </Stack.Navigator>
+    )
+}
+export const FlowEventStack = () => {
+    return (
+    <Stack.Navigator>
+        <Stack.Screen
+                name='DetailEvent'
+                component={DetailEventScreen}
+                options={{
+                    title: 'Detail Acara',
                     headerShown: true,
                     animationEnabled: false,
             }} />
+            <Stack.Screen
+                name='AbsenEvent'
+                component={AbsenEventScreen}
+                options={{
+                    title: 'Absensi Acara',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}/>
+            <Stack.Screen
+                name='Detail'
+                component={DetailScreen}
+                options={{
+                    title: 'Detail Absen',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}/>
+    </Stack.Navigator>
+    )
+}
+export const AddEventStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+                name='AddEvent'
+                component={AddEventScreen}
+                options={{
+                    title: 'Buat Acara',
+                    headerShown: true,
+                    animationEnabled: false,
+            }} />
+            <Stack.Screen
+                name='DetailEvent'
+                component={DetailEventScreen}
+                options={{
+                    title: 'Detail Acara',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}
+            />
+            <Stack.Screen
+                name='AbsenEvent'
+                component={AbsenEventScreen}
+                options={{
+                    title: 'Absensi Acara',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}
+            />
+            <Stack.Screen
+                name='Detail'
+                component={DetailScreen}
+                options={{
+                    title: 'Detail Absen',
+                    headerShown: true,
+                    animationEnabled: false,
+                }}/>
         </Stack.Navigator>
     )
 }

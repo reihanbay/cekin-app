@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
 
     listParent: {
         flex: 1,
+        paddingTop: Mixins.scaleSize(16)
     },
 
     list: {
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
 
     listInfo: {
         flex: 1,
-        paddingHorizontal: Mixins.scaleSize(10)
+        paddingHorizontal: Mixins.scaleSize(10),
     },
 
     listImageContainer: {
